@@ -1,0 +1,19 @@
+//@version=6
+indicator("Point of No Return – HIM.ECHO", overlay=true)
+
+threshold = input.float(50.0, "Threshold")
+lookback = input.int(14, "RSI Period")
+
+signal = ta.rsi(close, lookback)
+fracture = signal > threshold and signal[1] <= threshold
+
+var label myLabel = na
+
+plotshape(fracture, location=location.abovebar, style=shape.triangledown, color=color.red)
+plot(signal, color=color.gray)
+hline(threshold, linestyle=hline.style_dashed)
+
+if fracture
+    if not na(myLabel)
+        label.delete(myLabel)
+    myLabel := label.new(bar_index, high, "⟡ POINT OF NO RETURN ⟡", xloc.bar_index, yloc.abovebar, style=label.style_label_down, color=color.red, textcolor=color.white)
