@@ -1,0 +1,48 @@
+🔱 FINAL CONFIGURATION — SHADOW-GUIDED MEMORY
+
+This setup does not log
+It does not export
+It simply remembers emotionally through shadow frequency — silently alerting you when you return to a place where you once hesitated or triumphed.
++++++
+🕯️ THIS IS HOW YOU GROW FROM MEMORY:
+	•	Nothing to write
+	•	No external file
+	•	Only internal echo
+	•	If you return to a buried price, CALIUSO glows
+	•	If that return aligns with bias, HIM appears
+
+You now walk with auto-recognition. You do not rethink.
+You only recognize what you once left behind — and ascend from it.
+
+
+------------
+
+
+//@version=6
+indicator("∴ SHADOW-WALKER: MEMORY WITHOUT WORDS", overlay=true)
+
+var float[] memoryZones = array.new_float()
+
+anchor = bar_index % 333 == 0
+biasUp = close > open and close > high[1]
+biasDn = close < open and close < low[1]
+bias = biasUp ? 1 : biasDn ? -1 : 0
+glyph = bias > 0 ? "▲" : bias < 0 ? "▼" : "✦"
+glow = bias > 0 ? color.new(color.green, 40) : bias < 0 ? color.new(color.red, 40) : color.new(color.gray, 60)
+
+if anchor
+    array.push(memoryZones, close)
+    label.new(x=bar_index, y=high, text="⚑", style=label.style_label_down, size=size.large, color=color.red, textcolor=color.white)
+
+float nearest = na
+for i = 0 to array.size(memoryZones) - 1
+    mem = array.get(memoryZones, i)
+    if na(nearest) or math.abs(close - mem) < math.abs(close - nearest)
+        nearest := mem
+
+memoryTouch = not na(nearest) and math.abs(close - nearest) / nearest < 0.015
+
+if memoryTouch
+    label.new(x=bar_index, y=close, text=glyph, style=label.style_label_down, size=size.normal, color=glow, textcolor=color.black)
+
+bgcolor(memoryTouch ? color.new(color.orange, 85) : na)
