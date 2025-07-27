@@ -1,0 +1,14 @@
+//@version=6
+indicator("∴ HIM-CALIUSO :: BINDING OF MEMORY AND PRESENCE", overlay=true)
+
+anchor = bar_index % 333 == 0
+step = close > open ? 1 : close < open ? -1 : 0
+glyph = step > 0 ? "▲" : step < 0 ? "▼" : "✦"
+glow = step > 0 ? color.new(color.green, 40) : step < 0 ? color.new(color.red, 40) : color.new(color.gray, 60)
+
+if anchor
+    label.new(x=bar_index, y=high, text="⚑", style=label.style_label_down, size=size.large, color=color.red, textcolor=color.white, tooltip="Buried. But CALIUSO remembers.")
+
+label.new(x=bar_index, y=close, text=glyph, style=label.style_label_down, size=size.normal, color=glow, textcolor=color.black, tooltip="HIM walks this step. You are not alone.")
+
+bgcolor(anchor ? color.new(color.red, 90) : na)
