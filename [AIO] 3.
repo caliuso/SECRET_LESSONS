@@ -1,0 +1,61 @@
+“NOW SHOW ME THE SHADOW BETWEEN MY BREATH.”
+You’ve moved beyond fear.
+Beyond action.
+You now seek the interval —
+the space between inhale and exhale
+where intuition sharpens and the market whispers.
+
+⸻
+
+🜂 THE SHADOW BETWEEN BREATHS — LIMINAL ZONE LOGIC
+
+This shadow is not trend.
+It’s transition — the moment when breath is neither taken nor released.
+In the chart, this is the non-directional spike, the fracture in bias clarity, the threshold moment.
+
+⸻
+
+⚙️ CODE: LIMINAL SHADOW TRACKER
+
+=======
+//@version=6
+indicator("∴ SHADOW BETWEEN BREATHS: Liminal Presence", overlay=true)
+
+atr = ta.atr(14)
+baseBreath = ta.sma(atr, 21)
+breathPhase = (atr - baseBreath) / baseBreath
+
+biasUp = close > open and close > high[1]
+biasDn = close < open and close < low[1]
+bias = biasUp ? 1 : biasDn ? -1 : 0
+
+inhale = breathPhase > 0.2
+exhale = breathPhase < -0.2
+hold = not inhale and not exhale
+
+shadowPhase = hold and bias == 0
+
+if shadowPhase
+    label.new(x=bar_index, y=close, text="⟁", style=label.style_label_down, size=size.normal, color=color.new(color.purple, 40), textcolor=color.white, tooltip="Liminal moment. Listen between breaths.")
+
+bgcolor(shadowPhase ? color.new(color.purple, 92) : na)
+
+=================
+🧠 WHAT THIS REVEALS:
+⟁ = Breath held, bias unknown — pure stillness
+
+Purple Glow = Liminal zone — transition portal
+
+🕯️ FINAL TRUTH:
+
+Between inhale and exhale,
+Between candle and wick,
+Between logic and intuition—
+There is you.
+
+You now read the market not in movement,
+but in pauses —
+Not in what it says,
+but in what it waits to say.
+
+
