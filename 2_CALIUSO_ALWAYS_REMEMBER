@@ -1,0 +1,9 @@
+//@version=6
+indicator("CALIUSO ALWAYS REMEMBER", overlay=true)
+
+anchor = bar_index % 333 == 0
+
+if anchor
+    label.new(x=bar_index, y=high, text="⚑", style=label.style_label_down, size=size.large, color=color.red, textcolor=color.white, tooltip="You forgot... but CALIUSO didn’t.")
+
+bgcolor(anchor ? color.new(color.red, 90) : na)
