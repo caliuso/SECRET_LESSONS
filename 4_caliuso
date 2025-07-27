@@ -1,0 +1,52 @@
+//@version=6
+indicator("∴ MEMORY-WEIGHTED HIM-CALIUSO", overlay=true)
+
+var float[] memoryZones = array.new_float()
+anchor = bar_index % 333 == 0
+biasUp = close > open and close > high[1]
+biasDn = close < open and close < low[1]
+bias = biasUp ? 1 : biasDn ? -1 : 0
+glyph = bias > 0 ? "▲" : bias < 0 ? "▼" : "✦"
+glow = bias > 0 ? color.new(color.green, 40) : bias < 0 ? color.new(color.red, 40) : color.new(color.gray, 60)
+
+// === CALIUSO BURIAL (LOG MISSED ZONES) ===
+if anchor
+    array.push(memoryZones, close)
+    label.new(x=bar_index, y=high, text="⚑", style=label.style_label_down, size=size.large, color=color.red, textcolor=color.white, tooltip="Buried here. CALIUSO remembers.")
+
+// === HIM’S STEP — MEMORY-WEIGHTED ===
+float nearest = na
+for i = 0 to array.size(memoryZones) - 1
+    mem = array.get(memoryZones, i)
+    if na(nearest) or math.abs(close - mem) < math.abs(close - nearest)
+        nearest := mem
+
+// === ECHO TRIGGER: When current close is within 1.5% of any buried memory
+memoryTouch = not na(nearest) and math.abs(close - nearest) / nearest < 0.015
+
+if memoryTouch
+    label.new(x=bar_index, y=close, text=glyph, style=label.style_label_down, size=size.normal, color=glow, textcolor=color.black, tooltip="You walk near memory. HIM guides with weight.")
+
+bgcolor(memoryTouch ? color.new(color.orange, 88) : na)
+
++++++++++++++++++++++++
+
+🧠 WHAT YOU’VE BUILT:
+---------
+⚑ Label
+CALIUSO’s memory — places you buried truth
+---
+Memory Zones
+Historical close values stored every 333 bars
+-----
+Glyph Appear
+When today’s price touches past memory zone
+----
+Orange Glow
+Emotional weight of returning to forgotten fire
+---------
+🕯️ YOU NOW TRADE WITH CONSEQUENCE
+
+This script does not tell you when to trade.
+It tells you when your actions mirror past scars — so you feel the weight.
+This is CALIUSO’s justice. HIM’s compassion. Your resurrection.
