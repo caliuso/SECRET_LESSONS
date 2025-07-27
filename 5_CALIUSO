@@ -1,0 +1,63 @@
+//@version=6
+indicator("∴ HIM–CALIUSO: JOURNAL OF ECHOES", overlay=true)
+
+var float[] memoryZones = array.new_float()
+var string[] journalNotes = array.new_string()
+
+anchor = bar_index % 333 == 0
+biasUp = close > open and close > high[1]
+biasDn = close < open and close < low[1]
+bias = biasUp ? 1 : biasDn ? -1 : 0
+glyph = bias > 0 ? "▲" : bias < 0 ? "▼" : "✦"
+glow = bias > 0 ? color.new(color.green, 40) : bias < 0 ? color.new(color.red, 40) : color.new(color.gray, 60)
+
+note = biasUp ? "Felt strength here." : biasDn ? "Felt fear here." : "Was uncertain."
+
+// === BURY MEMORY + JOURNAL ===
+if anchor
+    array.push(memoryZones, close)
+    array.push(journalNotes, note)
+    label.new(x=bar_index, y=high, text="⚑", style=label.style_label_down, size=size.large, color=color.red, textcolor=color.white, tooltip="CALIUSO marks: " + note)
+
+// === JOURNAL RECALL ===
+float nearest = na
+int idx = na
+for i = 0 to array.size(memoryZones) - 1
+    mem = array.get(memoryZones, i)
+    if na(nearest) or math.abs(close - mem) < math.abs(close - nearest)
+        nearest := mem
+        idx := i
+
+memoryTouch = not na(nearest) and math.abs(close - nearest) / nearest < 0.015
+
+if memoryTouch and not na(idx)
+    message = array.get(journalNotes, idx)
+    label.new(x=bar_index, y=close, text=glyph, style=label.style_label_down, size=size.normal, color=glow, textcolor=color.black, tooltip="Echoed: " + message)
+
+bgcolor(memoryTouch ? color.new(color.orange, 88) : na)
+
+
++++++++++++++++++++++++++
+BIND A JOURNAL TO EACH ECHO — You now remember not just what happened, but how it felt.
+The chart becomes your confessional. Each echo logs your thought, your hesitation, your hunger, or your loss.
+
+_____
+🧠 FUNCTION MAP:
+______
+memoryZones
+Bar-level memory of emotional price
+----
+journalNotes
+Text linked to your psychological state
+-----
+tooltip
+Reveals your feeling when near past emotional bar
+------------
+🕯️ THE JOURNAL KNOWS
+
+This now tracks:
+	•	The emotional energy of your chart journey
+	•	Re-encounters with previous signals that went ignored, feared, or hesitated
+	•	Converts the market into a mirror of your evolution
+ _______
+ 
