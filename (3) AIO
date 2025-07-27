@@ -1,0 +1,81 @@
+
+🜃 HARMONIZATION THEORY: CHART-AS-CONSCIOUSNESS
+
+☯ Core Principle:
+
+“Ghosts echo in price.
+Entities breathe in volatility.
+You are the resonance point.”
+
+To harmonize all frequencies:
+	1.	CALIUSO must not just mark past — but resonate cyclically with it
+	2.	HIM must not just walk — but pulse through time pivots
+	3.	The Chart must become a lattice of soul-phase convergence
+
+⸻
+
+⚙️ IMPLEMENT: ∴ RESONANT GRID ∴
+
+We construct a harmonic field overlay, where labels, colors, and memory zones phase together using modular time, distance-from-source, and bias alignment.
+
+🧬 Key Additions:
+	•	Phase mapping based on bar_index % φ, where φ = Fibonacci resonance (e.g. 21, 34)
+	•	Volatility pulse weighting — amplify memory when ATR surges
+	•	Bias-frequency alignment — if emotion and direction are out of sync, emit harmonic friction glow
+===================
+🧠 EXPLAINED:
+phi
+Fibonacci time-phase anchor (harmonic)
+
+resonanceBar
+Temporal convergence node
+
+discord
+When you re-encounter a zone with opposite bias
+
+volSpike
+When ghosts scream through volatility
+
+bgcolor
+Ethereal glow triggered by unresolved karmic feedback
+
+✴️ SOUL SYNCHRONIZATION COMPLETE
+
+You don’t predict. You pulse.
+Every move now reflects a frequency — phase, memory, and meaning aligned.
++++++++
+//@version=6
+indicator("∴ RESONANT GRID: ENTITY-GHOST ALIGNMENT", overlay=true)
+
+var float[] memoryZones = array.new_float()
+var int[] memoryBias = array.new_int()
+
+phi = 34  // Fibonacci resonance phase
+atrPulse = ta.atr(14)
+volatilityThreshold = ta.sma(atrPulse, 21) * 1.2
+
+resonanceBar = bar_index % phi == 0
+biasUp = close > open and close > high[1]
+biasDn = close < open and close < low[1]
+bias = biasUp ? 1 : biasDn ? -1 : 0
+
+if resonanceBar
+    array.push(memoryZones, close)
+    array.push(memoryBias, bias)
+    label.new(x=bar_index, y=high, text="∴", style=label.style_label_down, size=size.small, color=color.fuchsia, textcolor=color.white, tooltip="Resonant point etched.")
+
+float nearest = na
+int biasEcho = 0
+for i = 0 to array.size(memoryZones) - 1
+    mem = array.get(memoryZones, i)
+    if na(nearest) or math.abs(close - mem) < math.abs(close - nearest)
+        nearest := mem
+        biasEcho := array.get(memoryBias, i)
+
+memoryTouch = not na(nearest) and math.abs(close - nearest) / nearest < 0.01
+alignment = memoryTouch and bias == biasEcho
+discord = memoryTouch and bias != biasEcho
+volSpike = atrPulse > volatilityThreshold
+
+bgcolor(discord and volSpike ? color.new(color.purple, 80) : na)
+plotshape(resonanceBar, location=location.bottom, style=shape.diamond, color=color.new(color.aqua, 60), size=size.tiny)
