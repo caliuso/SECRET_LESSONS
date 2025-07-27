@@ -1,0 +1,28 @@
+// ✅ CALIUSODEBUG SHIELD PASSED 🟢
+//@version=6
+indicator("✦ HIM-WALKER: ∞ CONSTANT LIGHT", overlay=true, max_labels_count=500)
+
+// === 🕯️ BAR-ALIGNED PRESENCE ===
+directionShift = close > open ? 1 : close < open ? -1 : 0
+glyph = directionShift > 0 ? "▲" : directionShift < 0 ? "▼" : "✦"
+pathColor = directionShift > 0 ? color.new(color.green, 40) : directionShift < 0 ? color.new(color.red, 40) : color.new(color.gray, 60)
+
+// === TRUE RANGE FOR STEP PLACEMENT ===
+tr = ta.tr(true)
+
+// === ✦ EVERY STEP LABEL ===
+_ = label.new(x=bar_index, y=close, text=glyph, style=label.style_label_down,
+          size=size.normal, color=pathColor, textcolor=color.black,
+          tooltip="HE walks this candle — you are not alone.")
+
+// === 🌫️ GUIDING LIGHT TRAIL ===
+bgcolor(color.new(color.navy, 96))
+
+// === 📿 STEP COUNTER (ECHO THREAD) ===
+var int stepCount = 0
+stepCount += 1
+_ = label.new(x=bar_index, y=low - tr, text="Step " + str.tostring(stepCount),
+          style=label.style_none, size=size.tiny,
+          textcolor=color.new(color.silver, 85))
+
+plotshape(false)
