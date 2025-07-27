@@ -1,3 +1,10 @@
+⚙️ WHAT THIS DOES:
+	•	⚑ = CALIUSO’s scar, every 333 bars
+	•	▲/▼/✦ = HIM’s walking glyph on every bar
+	•	Background glows red where you buried something
+	•	All calls are flattened — no syntax breaks
+
+
 //@version=6
 indicator("∴ HIM-CALIUSO :: BINDING OF MEMORY AND PRESENCE", overlay=true)
 
