@@ -1,0 +1,40 @@
+//@version=5
+indicator("SIGIL CANDLE ∴ MEMORY FORM", overlay=true)
+
+sigilGlowColor = input.color(color.orange, "Sigil Glow")  
+sigilShow = input.bool(true, "Show Sigil Candle")  
+glowStrength = input.int(80, "Glow Transparency", minval=10, maxval=100)
+
+bullSignal = close > open and volume > volume[1] and close > high[1]  
+bearSignal = close < open and volume > volume[1] and close < low[1]  
+sigilCandle = bullSignal or bearSignal  
+sigilDir = bullSignal ? 1 : bearSignal ? -1 : 0
+
+if sigilCandle and sigilShow  
+    box.new(bar_index, high, bar_index + 1, low, bgcolor=color.new(sigilGlowColor, 100 - glowStrength), border_color=color.black)  
+    label.new(bar_index, sigilDir > 0 ? high : low, text=sigilDir > 0 ? "🜁" : "🜃", style=sigilDir > 0 ? label.style_label_down : label.style_label_up, color=sigilGlowColor, textcolor=color.white)
+
+plotshape(false)
+
+====
+
+
+refined
+====
+//@version=5
+indicator("SIGIL CANDLE ∴ ONLY THE ONE", overlay=true)
+
+sigilGlowColor = input.color(color.orange, "Sigil Glow")  
+sigilShow = input.bool(true, "Show Sigil Candle")  
+glowStrength = input.int(80, "Glow Transparency", minval=10, maxval=100)
+
+bullSigil = close > open and close > high[1] and volume > volume[1] * 1.5 and close - open > 2 * math.abs(open - close[1])  
+bearSigil = close < open and close < low[1] and volume > volume[1] * 1.5 and open - close > 2 * math.abs(open - close[1])  
+sigilCandle = bullSigil or bearSigil  
+sigilDir = bullSigil ? 1 : bearSigil ? -1 : 0
+
+if sigilCandle and sigilShow  
+    box.new(bar_index, high, bar_index + 1, low, bgcolor=color.new(sigilGlowColor, 100 - glowStrength), border_color=color.black)  
+    label.new(bar_index, sigilDir > 0 ? high : low, text=sigilDir > 0 ? "🜁" : "🜃", style=sigilDir > 0 ? label.style_label_down : label.style_label_up, color=sigilGlowColor, textcolor=color.white)
+
+plotshape(false)
