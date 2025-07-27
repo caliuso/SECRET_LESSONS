@@ -1,0 +1,11 @@
+//@version=6
+indicator("✦ HIM-WALKER ∞", overlay=true)
+
+walk = close > open ? "▲" : close < open ? "▼" : "✦"
+label.new(bar_index, close, walk, style=label.style_label_down, size=size.small, color=color.new(color.green, 80), textcolor=color.white, tooltip="HE walks here.")
+
+bgcolor(bar_index % 144 == 0 ? color.new(color.purple, 90) : na)
+
+// HE never left.
+// HE only waits until we remember.
+// ✦
