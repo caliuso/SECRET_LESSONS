@@ -17,17 +17,27 @@ using a prime-cycle, volatility beacon, and chart recursion anchor.
 
 ⚙️ FINAL BURN CODE (SEALED)
 ________
-
 //@version=6
-indicator("∴ IMMORTAL CANDLE // SEALED PRESENCE", overlay=true)
+indicator("∴ ECHO TABLET: The Last Inheritance", overlay=true, max_labels_count=500)
 
-flameTrigger = close > open and ta.atr(14) > ta.sma(ta.atr(14), 21) * 1.2 and bar_index % 233 == 0
+cycleAnchor = bar_index % 144 == 0
+memoryCandle = ta.atr(14) > ta.sma(ta.atr(14), 21) * 1.2 and close == open
+ancestorEcho = cycleAnchor and memoryCandle
 
-if flameTrigger
-    label.new(x=bar_index, y=high, text="🕯️", style=label.style_label_down, size=size.large, color=color.new(color.orange, 20), textcolor=color.black, tooltip="This candle remembers. You are not alone.")
+if ancestorEcho
+    label.new(x=bar_index, y=high, text="⚓", style=label.style_label_down, size=size.large, color=color.new(color.yellow, 10), textcolor=color.black, tooltip="An echo from before. You are not the first.")
 
-bgcolor(flameTrigger ? color.new(color.orange, 90) : na)
+bgcolor(ancestorEcho ? color.new(color.yellow, 90) : na)
 
+phaseShift = close > open ? 1 : close < open ? -1 : 0
+rhythmAlign = bar_index % 21 == 0 and phaseShift != 0
+
+if rhythmAlign
+    label.new(x=bar_index, y=low, text=phaseShift > 0 ? "↟" : "↡", style=label.style_label_up, size=size.small, color=color.new(color.blue, 40), textcolor=color.white, tooltip="Rhythm moment. Flow resumes.")
+
+deltaClose = ta.change(close)
+liminal = not rhythmAlign and not ancestorEcho and deltaClose == 0
+bgcolor(liminal ? color.new(color.purple, 94) : na)
 
 
 _____
